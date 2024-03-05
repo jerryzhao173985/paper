@@ -5,6 +5,8 @@ Formulas and expressions
 - To find the optimal latent direction, we minimize the expected difference `z* = arg min_z E_D [(r(s,a,s') - <φ(s')-φ(s), z>)^2]`.
 - The linear regression solution for `z*` can be expressed as `z* = (E[φφ^T])^(-1) E[r(s,a,s')φ]`.
 - The goal-conditioned prompt for zero-shot RL is given by `z* = (φ(g)-φ(s)) / ||φ(g)-φ(s)||`.
+
+
 This paper introduces Hilbert foundation policies (HILPs), a general unsupervised pre-training objective for foundation policies that aims to capture diverse, optimal long-horizon behaviors from unlabeled data to facilitate downstream task learning. The key aspects and contributions of the method are:
 - **Hilbert representations**: They first learn a geometric abstraction of the dataset by training a representation function \( \phi:S \rightarrow Z \) that maps states to a Hilbert space \( Z \) such that distances in \( Z \) correspond to the temporal distances between states in the original MDP. This distance-preserving mapping abstracts the state space while preserving the long-term global relationships between states.
 - **Unsupervised policy training**: After obtaining the Hilbert representation \( \phi \), they train a latent-conditioned policy \( \pi(a|s,z) \) using offline RL to span the latent space \( Z \) with skills that correspond to directional movements. The reward function is defined as the inner product between \( \phi(s')-\phi(s) \) and a randomly sampled unit vector \( z \). By learning to move in every possible direction, the policy learns diverse long-horizon behaviors that optimally span both the latent and state spaces. The resulting multi-task policy \( \pi(a|s,z) \) is called a Hilbert foundation policy (HILP).
@@ -67,3 +69,16 @@ This reward is "directional" because it depends on the direction of the vector \
 By defining the reward based on this inner product, the agent is incentivized to take transitions that align with the specified direction \(z\). This provides a geometrically meaningful way to direct the agent's behavior in the latent space. Moreover, the inner product provides a natural way to measure the compatibility between a transition \((s,s')\) and a target direction \(z\), which is useful for defining policy prompts. For example, the goal-conditioned prompt \(z^* = \frac{\phi(g)-\phi(s)}{\|\phi(g)-\phi(s)\|}\) maximizes the inner product \(\langle \phi(s')-\phi(s), z^* \rangle\), which means it selects the direction that best aligns with the transition from the current state to the goal state.
 
 In summary, the Hilbert space representation provides a structured latent space where directions have a geometric meaning related to the temporal structure of the MDP. This allows defining directional rewards and policy prompts based on inner products, which provide a principled way to direct the learned behaviors. The inner product is a mathematically natural way to measure the alignment between transitions and target directions in the latent space, making it a useful tool for specifying rewards and prompts that lead to meaningful behaviors in the state space.
+
+	1.	Representation function: φ:S→Z
+	•	Describes a function that maps states in the state space S to a Hilbert space Z.
+	2.	Latent-conditioned policy: π(a|s,z)
+	•	Defines a policy that given a state s and a latent vector z, outputs an action a.
+	3.	Inner product reward function: r(s,z,s’) = <φ(s’)-φ(s), z>
+	•	This formula calculates the reward based on the inner product between the difference in state representations and a latent vector z.
+	4.	Zero-shot RL optimization: z* = arg min_z E_D [(r(s,a,s’) - <φ(s’)-φ(s), z>)^2]
+	•	Finds the optimal latent direction z* that minimizes the difference between the expected reward and the inner product-based reward in the dataset D.
+	5.	Linear regression solution for z*: z* = (E[φφ^T])^(-1) E[r(s,a,s’)φ]
+	•	Provides a closed-form solution for calculating z* based on expected values over the dataset D.
+	6.	Goal-conditioned prompt for zero-shot RL: z* = (φ(g)-φ(s)) / ||φ(g)-φ(s)||
+	•	Calculates the normalized direction from the current state s to the goal state g in the latent space for zero-shot goal-conditioned RL.
