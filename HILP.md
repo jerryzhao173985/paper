@@ -1,3 +1,10 @@
+Formulas and expressions
+- The representation function `φ:S→Z` maps states to a Hilbert space.
+- The latent-conditioned policy `π(a|s,z)` outputs an action given a state and latent vector.
+- The reward function is defined by the inner product `r(s,z,s') = <φ(s')-φ(s), z>`.
+- To find the optimal latent direction, we minimize the expected difference `z* = arg min_z E_D [(r(s,a,s') - <φ(s')-φ(s), z>)^2]`.
+- The linear regression solution for `z*` can be expressed as `z* = (E[φφ^T])^(-1) E[r(s,a,s')φ]`.
+- The goal-conditioned prompt for zero-shot RL is given by `z* = (φ(g)-φ(s)) / ||φ(g)-φ(s)||`.
 This paper introduces Hilbert foundation policies (HILPs), a general unsupervised pre-training objective for foundation policies that aims to capture diverse, optimal long-horizon behaviors from unlabeled data to facilitate downstream task learning. The key aspects and contributions of the method are:
 - **Hilbert representations**: They first learn a geometric abstraction of the dataset by training a representation function \( \phi:S \rightarrow Z \) that maps states to a Hilbert space \( Z \) such that distances in \( Z \) correspond to the temporal distances between states in the original MDP. This distance-preserving mapping abstracts the state space while preserving the long-term global relationships between states.
 - **Unsupervised policy training**: After obtaining the Hilbert representation \( \phi \), they train a latent-conditioned policy \( \pi(a|s,z) \) using offline RL to span the latent space \( Z \) with skills that correspond to directional movements. The reward function is defined as the inner product between \( \phi(s')-\phi(s) \) and a randomly sampled unit vector \( z \). By learning to move in every possible direction, the policy learns diverse long-horizon behaviors that optimally span both the latent and state spaces. The resulting multi-task policy \( \pi(a|s,z) \) is called a Hilbert foundation policy (HILP).
