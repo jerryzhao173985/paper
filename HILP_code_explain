@@ -1,0 +1,35 @@
+Explanation:
+Hilbert Representation Encoder:
+The HilbertRepresentation class defines the encoder network that maps states to the Hilbert space.
+The encoder can be implemented as a neural network, such as an MLP or a convolutional network, depending on the state representation.
+The encode function takes a state as input and returns its corresponding latent representation in the Hilbert space.
+HILP Policy:
+The HILPPolicy class defines the policy network that maps states and latent directions to actions.
+The policy network can be implemented as an MLP or any other suitable architecture.
+The get_action function takes a state and a latent direction as input, concatenates them, and passes them through the policy network to obtain the action.
+Hilbert Representation Loss:
+The hilbert_representation_loss function computes the loss for training the Hilbert representation encoder.
+It encodes the states and goal into the Hilbert space using the encoder.
+The temporal distance loss is calculated as the squared difference between the encoded temporal distances and the target distances.
+The target distance for the current state is set to 0 (assuming the goal is reached when the distance is 0), and the target distance for the next state is set to the negative discount factor.
+HILP Reward:
+The hilp_reward function computes the HILP reward based on the inner product between the state transition and the latent direction.
+It encodes the current state and the next state into the Hilbert space using the encoder.
+The state transition is calculated as the difference between the latent representations of the next state and the current state.
+The reward is computed as the dot product between the state transition and the latent direction.
+Zero-Shot Goal-Conditioned Policy Prompt:
+The zero_shot_goal_prompt function generates the latent direction prompt for zero-shot goal-conditioned RL.
+It encodes the current state and the goal state into the Hilbert space using the encoder.
+The direction is computed as the normalized difference between the latent goal and the latent current state.
+Zero-Shot RL Policy Prompt:
+The zero_shot_rl_prompt function generates the latent direction prompt for zero-shot RL with a new reward function.
+It computes the latent directions and rewards for the dataset by encoding the states and calculating the state transitions and rewards.
+The optimal latent direction is obtained by solving a linear regression problem minimizing the squared difference between the predicted rewards and the true rewards.
+Training Loop:
+The train_hilp function defines the training loop for the HILP framework.
+It initializes the Hilbert representation encoder, HILP policy, and their respective optimizers.
+For each epoch and batch, it updates the encoder and policy networks using the corresponding losses.
+The encoder is updated by minimizing the Hilbert representation loss, which encourages the encoded distances to match the target distances.
+The policy is updated by maximizing the expected HILP reward, which is computed using the sampled latent directions and the HILP reward function.
+During evaluation, the zero-shot goal-conditioned performance is assessed by generating goal-directed actions using the goal prompts and evaluating their performance.
+The zero-shot RL performance with a new reward function is evaluated by generating actions using the RL prompt and assessing their performance under the new reward function.
