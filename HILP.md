@@ -69,18 +69,3 @@ This reward is "directional" because it depends on the direction of the vector \
 By defining the reward based on this inner product, the agent is incentivized to take transitions that align with the specified direction \(z\). This provides a geometrically meaningful way to direct the agent's behavior in the latent space. Moreover, the inner product provides a natural way to measure the compatibility between a transition \((s,s')\) and a target direction \(z\), which is useful for defining policy prompts. For example, the goal-conditioned prompt \(z^* = \frac{\phi(g)-\phi(s)}{\|\phi(g)-\phi(s)\|}\) maximizes the inner product \(\langle \phi(s')-\phi(s), z^* \rangle\), which means it selects the direction that best aligns with the transition from the current state to the goal state.
 
 In summary, the Hilbert space representation provides a structured latent space where directions have a geometric meaning related to the temporal structure of the MDP. This allows defining directional rewards and policy prompts based on inner products, which provide a principled way to direct the learned behaviors. The inner product is a mathematically natural way to measure the alignment between transitions and target directions in the latent space, making it a useful tool for specifying rewards and prompts that lead to meaningful behaviors in the state space.
-
-Formulas revisit
-
-Representation function: φ:S→Z
-	•	Describes a function that maps states in the state space S to a Hilbert space Z.
-Latent-conditioned policy: π(a|s,z)
-	•	Defines a policy that given a state s and a latent vector z, outputs an action a.
-Inner product reward function: r(s,z,s’) = <φ(s’)-φ(s), z>
-	•	This formula calculates the reward based on the inner product between the difference in state representations and a latent vector z.
-Zero-shot RL optimization: z* = arg min_z E_D [(r(s,a,s’) - <φ(s’)-φ(s), z>)^2]
-	•	Finds the optimal latent direction z* that minimizes the difference between the expected reward and the inner product-based reward in the dataset D.
-Linear regression solution for z*: z* = (E[φφ^T])^(-1) E[r(s,a,s’)φ]
-	•	Provides a closed-form solution for calculating z* based on expected values over the dataset D.
-Goal-conditioned prompt for zero-shot RL: z* = (φ(g)-φ(s)) / ||φ(g)-φ(s)||
-	•	Calculates the normalized direction from the current state s to the goal state g in the latent space for zero-shot goal-conditioned RL.
