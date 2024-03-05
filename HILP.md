@@ -70,15 +70,17 @@ By defining the reward based on this inner product, the agent is incentivized to
 
 In summary, the Hilbert space representation provides a structured latent space where directions have a geometric meaning related to the temporal structure of the MDP. This allows defining directional rewards and policy prompts based on inner products, which provide a principled way to direct the learned behaviors. The inner product is a mathematically natural way to measure the alignment between transitions and target directions in the latent space, making it a useful tool for specifying rewards and prompts that lead to meaningful behaviors in the state space.
 
-	1.	Representation function: φ:S→Z
+Formulas revisit
+
+Representation function: φ:S→Z
 	•	Describes a function that maps states in the state space S to a Hilbert space Z.
-	2.	Latent-conditioned policy: π(a|s,z)
+Latent-conditioned policy: π(a|s,z)
 	•	Defines a policy that given a state s and a latent vector z, outputs an action a.
-	3.	Inner product reward function: r(s,z,s’) = <φ(s’)-φ(s), z>
+Inner product reward function: r(s,z,s’) = <φ(s’)-φ(s), z>
 	•	This formula calculates the reward based on the inner product between the difference in state representations and a latent vector z.
-	4.	Zero-shot RL optimization: z* = arg min_z E_D [(r(s,a,s’) - <φ(s’)-φ(s), z>)^2]
+Zero-shot RL optimization: z* = arg min_z E_D [(r(s,a,s’) - <φ(s’)-φ(s), z>)^2]
 	•	Finds the optimal latent direction z* that minimizes the difference between the expected reward and the inner product-based reward in the dataset D.
-	5.	Linear regression solution for z*: z* = (E[φφ^T])^(-1) E[r(s,a,s’)φ]
+Linear regression solution for z*: z* = (E[φφ^T])^(-1) E[r(s,a,s’)φ]
 	•	Provides a closed-form solution for calculating z* based on expected values over the dataset D.
-	6.	Goal-conditioned prompt for zero-shot RL: z* = (φ(g)-φ(s)) / ||φ(g)-φ(s)||
+Goal-conditioned prompt for zero-shot RL: z* = (φ(g)-φ(s)) / ||φ(g)-φ(s)||
 	•	Calculates the normalized direction from the current state s to the goal state g in the latent space for zero-shot goal-conditioned RL.
