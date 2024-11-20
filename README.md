@@ -1,2 +1,2 @@
 # paper
-Summary detials for new papers.
+Summary detials for new paper releases.
